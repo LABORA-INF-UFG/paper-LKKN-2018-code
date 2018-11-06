@@ -1,0 +1,3 @@
+# An Exact and Polynomial Approach for a Bi-Objective Integer Programming Problem Regarding Network Flow Routing -- Code
+
+We implement the algorithm that it is an e-constraint approach for finding a minimal complete set of Pareto-optimal solutions for the biojective problem (P) where the first objective function minimizes the load in the most congested edges and the second objective function minimizes the total cost of routing the flows. In each iteration of the algorithm, a single-objective problem, (P_ϵ), is solved. The integer and positive parameter ϵ is used to control the values of the bottleneck objective function and to ensure the optimality of the algorithm. 
