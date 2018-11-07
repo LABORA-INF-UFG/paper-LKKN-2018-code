@@ -17,9 +17,7 @@
 //															    
 // Contributed by Pinto, L. L., Cardoso, K. V., Maculan, N. 	
 // Designed by Fernandes, K. C. C.								
-//															    
-// The source code in this file regards the paper, described below, submitted to C&OR.				    
-// 															 
+//
 // Title: An Exact and Polynomial Approach for a Bi-Objective Integer Programming Problem Regarding Network   
 //        Flow Routing.										        
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,11 +124,11 @@ using namespace std;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     int *conect = new int[numVertex]; //number of edges insert in each node
 	int *nodeAdj = new int[numVertex];//vector that has the number of adjacency nodes for each node
-	int sumConectTotal= 0;//total de conecção
+	int sumConectTotal= 0;//total de conecÃ§Ã£o
 	int *position = new int[numVertex+1]; // conection total until node i
 
 //Adjacency matrix of network
-     int** inc=new int*[numVertex];// matriz de adjacência
+     int** inc=new int*[numVertex];// matriz de adjacÃªncia
      for(int i = 0; i < numVertex; i++) {
        inc[i]=new int[numVertex];
      }
@@ -364,7 +362,7 @@ using namespace std;
 	       flows[i].target = dest[i];}
   */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////     
- inputFile <<"%%%%%%%%%%%%%%%%%%%%%%%% Grid topology – input flow setting %%%%%%%%%%%%%%%%%%%%%"  << endl;
+ inputFile <<"%%%%%%%%%%%%%%%%%%%%%%%% Grid topology Â– input flow setting %%%%%%%%%%%%%%%%%%%%%"  << endl;
  inputFile <<"Instance = "<< contador  << endl;
  inputFile <<"Number of nodes = "<< numVertex  << endl;
  inputFile <<"Number of fluxos = "<< numFlow  << endl;
@@ -388,7 +386,7 @@ using namespace std;
   IloModel model(env);
   IloBoolVarArray variables(env);
   IloRangeArray constraints(env);
-  CPX_ON;//conserva a memória quando possível
+  CPX_ON;//conserva a memÃ³ria quando possÃ­vel
   CPX_NODESEL_DFS; //busca em profundidade
    
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
