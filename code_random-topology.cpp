@@ -62,8 +62,8 @@ using namespace std;
   ////////////////////////////////////////////////////////////////////
   //Inicialização
   ///////////////////////////////////////////////////////////////////
-  int instancia = 1;
-  int numVertex = 50; //numbers of instances
+  int instancia = 100; //numbers of instances
+  int numVertex = 100; //numbers of nodes
   int numFlow = 80;  //number of nodes of network  
    vector<vector<int> > graph(numVertex + 1); 
    Flow *flows = new Flow[numFlow+1];
@@ -129,7 +129,7 @@ using namespace std;
 	int sumConectTotal= 0;//total de conecção
 	int *position = new int[numVertex+1]; // conection total until node i
 
-	//Adjacency matrix of network
+//Adjacency matrix of network
      int** inc=new int*[numVertex];// matriz de adjacência
      for(int i = 0; i < numVertex; i++) {
        inc[i]=new int[numVertex];
@@ -160,8 +160,7 @@ using namespace std;
     }
 	  
   srand(30);
-  //connect the node (m_o + 1) to m nodes of existing nodes (here m = m_o)
-	
+//connect the node (m_o + 1) to m nodes of existing nodes (here m = m_o)
 	for(int i = 1; i <= mo; i++){
 		   graph[mo+1].push_back(i);
 		   graph[i].push_back(mo+1);
@@ -224,8 +223,8 @@ using namespace std;
 	    }
 		
 	}
-	/*
-	//Print the graph
+/*
+//Print the graph
 	for(int i=1;i <= numVertex; i++){
 		for(int j=1;j<= numVertex; j++){
 			loc[i-1][j-1]=0;
@@ -259,7 +258,7 @@ using namespace std;
 			   posminEdge = l+1;}
    }
    */
-  /*
+/*
   cout <<" Maximum number of  adjacent node = "  << (maxnodeAdj) << endl;
   outputFile <<" Maximum number of  adjacent node ="  << (maxnodeAdj) << endl;
   cout <<" A node with adjacency node maximum   = "  << posmaxEdge << endl;
@@ -276,11 +275,11 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //The random cost of edges
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   for (int j = 0; j < numVertex; j++) {
       for (int k = j; k < numVertex; k++) {
 		  if(inc[j][k]==1 ){
-				  costEdge[j][k]= 1 + ( rand() % 4 );
+			      costEdge[j][k]= 1;
+				  //costEdge[j][k]= 1 + ( rand() % 4 );
 				  costEdge[k][j]= costEdge[j][k];
 			  }
 		  if(inc[j][k]==0){
@@ -311,7 +310,7 @@ using namespace std;
       double inicio = clock();
 	  contador++;  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-   int epsilon = numFlow;
+   int epsilon = numFlow;//initial value of epsilon
    int cont=0; //number of times that P_epsilon is feasible
    int numdelete = 0; //number of dominated solutions
    int numPareto = 0; //number of Pareto-optimal solutions
@@ -319,7 +318,7 @@ using namespace std;
    int pos = 0;
    int cost = 0;
    
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    for(int i = 0; i < numFlow; ++i){
 	  for(int j = 0; j < numFlow; ++j){
 	   salto[i][j] = 0; 
@@ -360,12 +359,12 @@ using namespace std;
       ori[i]=d;
       dest[i]=d;
 	while(ori[i] == dest[i]){
-		ori[i] = (rand()%(numVertex)) + 1; }//gera um inteiro de 1 a numVertex
+		ori[i] = (rand()%(numVertex)) + 1; }
 		 flows[i].source = ori[i];
 	       flows[i].target = dest[i];}
   */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////     
- inputFile <<"%%%%%%%%%%%%%%%%%%%%%%%%Grid topology – input setting flows%%%%%%%%%%%%%%%%%%%%%%%%%%"  << endl;
+ inputFile <<"%%%%%%%%%%%%%%%%%%%%%%%% Grid topology – input flow setting %%%%%%%%%%%%%%%%%%%%%"  << endl;
  inputFile <<"Instance = "<< contador  << endl;
  inputFile <<"Number of nodes = "<< numVertex  << endl;
  inputFile <<"Number of fluxos = "<< numFlow  << endl;
@@ -380,7 +379,7 @@ using namespace std;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Building of Loop for resolution P_epsilon
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- do{     
+  do{     
  
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Building model
@@ -435,7 +434,7 @@ using namespace std;
 
     }
 //Constraint 2: 
-/ this loop below excludes the source and destination vertices
+// this loop below excludes the source and destination vertices
      for (int j = 1; j <= numVertex; j++) {
        if (j == flows[i].source || j == flows[i].target)
         continue;
@@ -458,7 +457,7 @@ using namespace std;
       constraints.add(IloRange(env, -1, inConstraint, -1, inConstraintName.str().c_str()));
        }
   
-  //Constraint 3:  
+ //Constraint 3:  
   for (int i = 1; i <= numVertex; i++) {
     for (int j = 0; j < graph[i].size(); j++) {//aquizero <
       
@@ -520,13 +519,13 @@ using namespace std;
        cout << model << endl;
        outputFile << model << endl;}
     */
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // Optimize the problem P_epsilon
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ // Optimize the problem P_epsilon
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       IloCplex cplex(model);
 	  //cplex.setOut(LogFile); 
    
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    if ( cplex.solve() ) {
 	   cont = cont + 1;}
    else {
@@ -556,7 +555,7 @@ using namespace std;
 		  }
 	  }
 	  
-	//Clean 
+//Clean 
 	  cplex.clearModel();
 	  cplex.clear();
 	  variables.end();
@@ -593,7 +592,7 @@ using namespace std;
 		 sumFlow[j] += variable[pos];
      }
    }
-  //vector with the bottleneck in each iteration after to solve P_epsilon
+//vector with the bottleneck in each iteration after to solve P_epsilon
     for (int i = 0; i < numFlow; ++i){
         bottleneck[i] = 0;
     }
@@ -605,8 +604,10 @@ using namespace std;
 
     cout <<"The bottleneck in the iteration "  << cont << " = " << bottleneck[cont-1] << endl;
     //outputFile <<"The bottleneck in the iteration "  << cont << " = " << bottleneck[cont-1] << endl;
-   
-     epsilon = bottleneck[cont-1] - 1;  
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    epsilon = bottleneck[cont-1] - 1;  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Store the total of jumps of each flow from the current iteration 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -635,9 +636,9 @@ using namespace std;
 	PO[cont][0] = INT_MAX;
     PO[cont][1] = INT_MAX;
     
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//Cleanup
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Cleanup
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	cplex.clearModel();
 	cplex.clear();
 	cplex.clearModel();
@@ -665,7 +666,6 @@ using namespace std;
  
   // when solution of iteration i dominates the solution of iteration i-1 the line i-1 of VO is replaced by another one
   // with infinite elements.
-
    for ( int i = 0; i < 2; i++ ){
 	   if( cont > 1 && VO[cont-1][1] == VO[cont-2][1]){
              PO[cont-2][i] = INT_MAX;
@@ -677,8 +677,8 @@ using namespace std;
    if( cont > 1 && VO[cont-1][1] == VO[cont-2][1]){
 	   numdelete = numdelete+1;
     }
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    cout << " The Matrix VO presents in each row the objective vector of generated solutions, i.e, " << endl;
    //outputFile << " The Matrix PO presents in each row the objective vector of generated solutions, i.e, " << endl;
    
@@ -687,7 +687,6 @@ using namespace std;
      //outputFile <<  "VO_" << i << " * " << VO[i][0] << "  " << VO[i][1]  << endl;
     }
 	   
-	//imprime a matriz com os vetores Pareto ótimos
     cout << " The Matrix PO presents in each row the objective vector of Pareto-opitmal solutions, i.e, " << endl;
      //outputFile << " The Matrix PO presents in each row the objective vector of Pareto-opitmal solutions, i.e, " << endl;
    
@@ -723,13 +722,13 @@ using namespace std;
 			  cout << numPareto << "  " << numdelete << "  " << numPareto+ numdelete << "  " << cont  << "  " << tempo / (double)CLOCKS_PER_SEC << "  " << VO[0][0] << "  " << VO[cont-1][0] << "  " <<PO[i][0] << "  " << PO[i][1]  <<  "  "  << PO[cont-1][0] << "  " << PO[cont-1][1]  <<endl; 
 		      outputFile<< numPareto << "  " << numdelete << "  " << numPareto+ numdelete << "  " << cont  << "  " << tempo / (double)CLOCKS_PER_SEC << "  " << VO[0][0] << "  " << VO[cont-1][0] << "  " <<PO[i][0] << "  " << PO[i][1]  <<  "  "  << PO[cont-1][0] << "  " << PO[cont-1][1]  <<endl; 
 			  primeiro = primeiro + 1;
-			  for (int k = 0; k < numFlow; k++ ){
-				  outputFile <<salto[0][k] << "   " << salto[cont-1][k] << endl;}
+			  /*for (int k = 0; k < numFlow; k++ ){
+				  outputFile <<salto[0][k] << "   " << salto[cont-1][k] << endl;}*/
 		  }
 	  }
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       
      double fim = clock();
      double  tempo = fim - inicio;

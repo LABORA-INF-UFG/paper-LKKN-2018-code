@@ -61,7 +61,7 @@ using namespace std;
   ////////////////////////////////////////////////////////////////////
   //Inicialization
   ///////////////////////////////////////////////////////////////////
-  int instancia = 3; // number of instances
+  int instancia = 100; // number of instances
   int s = 10; //numbers of columns of grid 
   int k = s; // numbers of rows of grid
   int numVertex = k*s; //number of nodes of grid
