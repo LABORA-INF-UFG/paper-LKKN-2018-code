@@ -16,9 +16,7 @@
 // software. 																								
 //															    
 // Contributed by Pinto, L. L., Cardoso, K. V., Maculan, N. 	
-// Designed by Fernandes, K. C. C.								
-//															    
-// The source code in this file regards the paper, described below, submitted to C&OR.				    
+// Designed by Fernandes, K. C. C.																							    
 // 															 
 // Title: An Exact and Polynomial Approach for a Bi-Objective Integer Programming Problem Regarding Network   
 //        Flow Routing.										        
