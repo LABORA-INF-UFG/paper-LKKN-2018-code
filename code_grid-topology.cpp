@@ -59,7 +59,7 @@ using namespace std;
   std::ofstream LogFile("LogFile.txt");
 
   ////////////////////////////////////////////////////////////////////
-  //Inicialization
+  //Initialization
   ///////////////////////////////////////////////////////////////////
   int instancia = 100; // number of instances
   int s = 10; //numbers of columns of grid 

@@ -60,7 +60,7 @@ using namespace std;
    inputFile.open("LogFile.txt");
    std::ofstream LogFile("LogFile.txt");
   ////////////////////////////////////////////////////////////////////
-  //Inicialização
+  //Initialization
   ///////////////////////////////////////////////////////////////////
   int instancia = 100; //numbers of instances
   int numVertex = 100; //numbers of nodes
